@@ -1,0 +1,218 @@
+#!/usr/bin/env python3
+#
+#    rasm
+#
+# entry point por rasm
+#
+#               _ __ __ _ ___ _ __ ___  
+#              | '__/ _` / __| '_ ` _ \ 
+#              | | | (_| \__ \ | | | | |
+#              |_|  \__,_|___/_| |_| |_|
+#
+# MIT License
+# 
+# Copyright (c) 2022 Alicia González Martínez and Thomas Milo
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+####################################################################################
+
+import re
+import sys
+import textwrap
+try:
+    import ujson as json
+except ModuleNotFoundError:
+    import json
+from argparse import ArgumentParser, FileType, ArgumentTypeError, RawTextHelpFormatter
+
+from rasm import rasm
+from rasm.util import PrivateFileError
+
+QURAN_INDEX_HELP = textwrap.dedent('''\
+                                       quranic index range i[:j[:k[:m]]][-n[:p[:q[:r]]]] where
+                                           i: start sura      n: end sura
+                                           j: start verse     p: end verse
+                                           k: start word      q: end word
+                                           m: start block     r: end block
+                                          (both beginning and end limits are inclusive)''')
+
+QURAN_INDEX_REGEX = re.compile(r'^(?P<i>[1-9][0-9]{0,2})'
+                                    r'(?::(?P<j>[1-9][0-9]{0,2}))?'
+                                    r'(?::(?P<k>[1-9][0-9]{0,2}))?'
+                                    r'(?::(?P<m>[1-9][0-9]{0,2}))?'
+                                    r'(?:-(?P<n>[1-9][0-9]{0,2})'
+                                    r'(?::(?P<p>[1-9][0-9]{0,2}))?'
+                                    r'(?::(?P<q>[1-9][0-9]{0,2}))?'
+                                    r'(?::(?P<r>[1-9][0-9]{0,2}))?'
+                                    r')?$')
+
+def parse_quran_range(arg):
+    """ Check if arg is the word ´all´ or a Quranic index range with the format:
+
+            i[:j[:k[:m]]][-n[:p[:q[:r]]]]
+    
+        where
+    
+            i: start sura or cairo page
+            j: start verse or cairo line
+            k: start word
+            m: start letterblock
+            n: end sura or cairo page
+            p: end verse or cairo line
+            q: end word
+            r: end letterblock
+    
+        Both beginning and end limits are inclusive.
+
+        Note: indexes start in 1, not in 0.
+
+    Args:
+        arg (startr): quranic index or ´all´.
+
+    Return:
+        ((int, int, int, int), (int, int, int, int)): ini sura/page, ini verse/line, ini word, ini block;
+            end sura/page, end verse/line, end word, end block. All integers can be None except ini sura/page.
+
+    Raise:
+        ArgumentTypeError: if arg does not follow the expected format.
+
+    """
+    if arg == 'all':
+        return ((0, None, None, None), (114, None, None, None))
+
+    if (index := QURAN_INDEX_REGEX.match(arg)):
+        
+        i = int(index.group('i')) if index.group('i') else None
+        j = int(index.group('j')) if index.group('j') else None
+        k = int(index.group('k')) if index.group('k') else None
+        m = int(index.group('m')) if index.group('m') else None
+
+        n = int(index.group('n')) if index.group('n') else None
+        p = int(index.group('p')) if index.group('p') else None
+        q = int(index.group('q')) if index.group('q') else None
+        r = int(index.group('r')) if index.group('r') else None
+
+        return ((i, j, k, m), (n, p, q, r))
+
+    raise ArgumentTypeError('argument format must be all|\\d[:\\d[:\\d[:\\d]]]-\\d[:\\d[:\\d[:\\d]]], each int having 3 digits max., eg. 2:3-2:10:2')
+
+
+if __name__ == '__main__':
+
+    parser = ArgumentParser(description='convert Arabic-scripted text to a completely dediacritised skeleton',
+                            epilog='Ya Kabikaj, protect this code from bugs!', formatter_class=RawTextHelpFormatter)
+    option = parser.add_mutually_exclusive_group()
+    option.add_argument('--text', nargs='?', type=FileType('r'), default=sys.stdin, help='text to convert')
+    option.add_argument('--quran', '-q', type=parse_quran_range, help=QURAN_INDEX_HELP)
+    parser.add_argument('outfile', nargs='?', type=FileType('w'), default=sys.stdout, help='output stream')
+    parser.add_argument('--source', '-s', choices=['tanzil-simple', 'tanzil-uthmani', 'decotype'], default='tanzil-simple', help='source of the quranic text [only for --quran]')
+    parser.add_argument('--norm', '-n', action='store_true', help='normalise clusters of Arabic Presentation Forms, i.e. FB50–FDFF, FE70–FEFF [only for --text]')
+    parser.add_argument('--paleo', '-p', action='store_true', help='include paleo-orthographic representation of text')
+    parser.add_argument('--blocks', '-b', action='store_true', help='return results in letterblocks, instead of words')
+    parser.add_argument('--only_rasm', action='store_true', help='do not print start of rub el hizb (۞ U+06de) nor place of sajda (۩ U+06e9) [only for --quran]')
+    parser.add_argument('--uniq', '-u', action='store_true', help='output each unique archigraphemic letterblock, no. of occurrences and list of them')
+    parser.add_argument('--sep', default='\t', help='field separator for text output [DEFAULT \\t]')
+    parser.add_argument('--json', action='store_true', help='print output in json instead of plain text')
+    parser.add_argument('--version', action='version', version='%(prog)s 1.0', help='prints the program version number and exits successfully')
+    args = parser.parse_args()
+
+    try:
+    
+        if args.quran:
+            result = rasm(args.quran, paleo=args.paleo,
+                                      blocks=args.blocks,
+                                      uniq=args.uniq,
+                                      source=args.source,
+                                      only_rasm=args.only_rasm)    
+        else:
+            result = rasm(args.text, paleo=args.paleo,
+                                     blocks=args.blocks,
+                                     uniq=args.uniq,
+                                     norm_clusters=args.norm)
+        if args.uniq:
+            if args.json:
+                if args.paleo: keys = ('ori', 'rlt', 'rar', 'frq', 'tok-pal')
+                else: keys = ('ori', 'rlt', 'rar', 'frq', 'tok')
+                json.dump([dict(zip(keys, (*bs, abs_freq, list(ori_toks)))) for *bs, abs_freq, ori_toks in result], args.outfile, ensure_ascii=False)
+
+            else:
+                if args.paleo:
+                    for *bls, freq, toks in result:
+                        print(*bls, freq, args.sep.join(args.sep.join(t) for t in toks), sep=args.sep, file=args.outfile)
+                else:
+                    for *bls, freq, toks in result:
+                        print(*bls, freq, args.sep.join(toks), sep=args.sep, file=args.outfile)
+
+        else:
+            # print in json mode (and uniq==False)
+            if args.json:
+                if args.blocks:
+                    keys = ('ori', 'rlt', 'rar')
+                    if args.paleo: keys += ('pal',)
+                    if args.quran: keys += ('ind',)
+                    json.dump([{ 'tok' : tok,
+                                 'bks' : [dict(zip(keys, rest)) for rest in blocks]
+                                 } for tok, blocks in result],
+                        args.outfile, ensure_ascii=False)
+
+                else:
+                    keys = ('ori', 'rlt', 'rar')
+                    if args.paleo: keys += ('pal',)
+                    if args.quran: keys += ('ind',)
+                    json.dump([dict(zip(keys, (ori, *rest))) for ori, *rest in result], args.outfile, ensure_ascii=False)
+                
+            # print in text mode (and uniq==False)
+            else:
+                if args.blocks:
+
+                    for ori, blocks in result:
+                        if args.quran:
+                            *tks, ind  = blocks[0]
+                            print(*tks, ':'.join(map(str, ind)), sep=args.sep, file=args.outfile)
+                        else:
+                            if blocks:
+                                print(*blocks[0], sep=args.sep, file=args.outfile)
+
+                        if len(blocks) > 1:
+                            if args.quran:
+                                for bk in blocks[1:]:
+                                    *tks, ind = bk
+                                    print(*tks, ':'.join(map(str, ind)), sep=args.sep, file=args.outfile)
+                            else:
+                                for bk in blocks[1:]:
+                                    print(*bk, sep=args.sep, file=args.outfile)
+
+                else:
+                    if args.quran:
+                        for *res, ind in result:
+                            print(*res, ':'.join(map(str, ind)), sep=args.sep, file=args.outfile)
+                    else:
+                        for res in result:
+                            print(*res, sep=args.sep, file=args.outfile)
+
+    
+    except PrivateFileError as err:
+        print(err, file=sys.stderr)
+        sys.exit(1)
+
+    except (KeyboardInterrupt, BrokenPipeError, IOError) as err:
+        pass
+
+    sys.stderr.close()

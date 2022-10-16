@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: González Martínez
+    given-names: Alicia
+  - family-names: Milo
+    given-names: Thomas
+title: "Rasm"
+version: 1.0
+license: MIT
+repository-code: "https://github.com/kabikaj/rasm"
+date-released: 2022-10-01

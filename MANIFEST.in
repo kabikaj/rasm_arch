@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+include resources/mushaf_simple.json
+include resources/mushaf_uthmani.json
+include resources/mushaf_dt.json
