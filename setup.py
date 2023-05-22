@@ -41,9 +41,9 @@ setup(
     long_description_content_type="text/markdown",
     author = "Alicia González Martínez and Thomas Milo",
     author_email = "aliciagm85+kabikaj@gmail.com",
-    url = "https://gitlab.com/abjad/yakabikaj.git",
-    download_url = "https://github.com/kabikaj/rasm",
-    scripts=['bin/rasm'],
+    url = "https://github.com/kabikaj/rasm_arch",
+    download_url = "https://github.com/kabikaj/rasm_arch",
+    scripts=['bin/rasm_arch'],
     keywords = ["arabic", "persian", "urdu", "quran", "manuscript", "rasm", "unicode", "NLP", "digital humanities"],
     license = 'MIT',
     classifiers = [
