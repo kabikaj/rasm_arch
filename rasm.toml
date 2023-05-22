@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rasm"
-version = "1.0.0"
+version = "1.0.1"
 description = "Rasm is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton"
 readme = "README.md"
 authors = [{ name = "Alicia González Martínez", email = "aliciagm85+rasm@google.com" },

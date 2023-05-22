@@ -35,7 +35,7 @@ setup(
     name = "rasm",
     packages = ["rasm", "resources"],
     package_data = {'resources' : ['mushaf_simple.json', 'mushaf_uthmani.json', 'mushaf_dt.json']},
-    version = "1.0",
+    version = "1.0.1",
     description = "text utility for converting Arabic-scripted text to a completely dediacritised skeleton",
     long_description = readme(),
     long_description_content_type="text/markdown",

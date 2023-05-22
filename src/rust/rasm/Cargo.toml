@@ -1,0 +1,12 @@
+[package]
+  name = "rasm"
+  version = "0.1.0"
+  authors = [ "Alicia González Martínez <aliciagm85+yakabikaj@gmail.com>, Thomas Milo <tmilo@decotype.com>" ]
+  edition = "2018"
+
+[dependencies]
+  argparse = "0.2.2"
+  maplit = "1.0.1"
+  regex = "1"
+  cute = "0.3.0"
+  libc = "0.2.51"

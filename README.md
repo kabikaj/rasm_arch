@@ -103,10 +103,6 @@ As a command-line utility:
 ]
 ```
 
-## Version
-
-This version requires Python 3.8 or later.
-
 ## License for the code
  
 Rasm is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton.
