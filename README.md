@@ -26,7 +26,7 @@ $ $ python -m pip install rasm_arch
 Install rasm_arch package and rasm_arch command-line utility along with the man page locally using the makefile:
 
 ```sh
-$ make install
+$ make
 ```
 
 Use the following commands to uninstall it:
