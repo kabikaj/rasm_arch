@@ -23,7 +23,7 @@ Install rasm package through pip:
 $ $ python -m pip install rasm
 ```
 
-Use the makefile to install the rasm package along with the rasm command-line utility and man page:
+To install the rasm package along with the rasm command-line utility and man page download the source and use makefile locally:
 
 ```sh
 $ make install

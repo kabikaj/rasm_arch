@@ -1,2 +1,5 @@
+env/*
 build/*
 __pycache__/
+rasm.egg-info/*
+src/rust/rasm/target/*

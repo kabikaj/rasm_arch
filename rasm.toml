@@ -38,8 +38,7 @@ dev = [
 ]
 
 [project.scripts]
-realpython = "rasm.bin.rasm"
+rasm = "rasm.bin.rasm"
 
 [project.urls]
-"Homepage" = "https://github.com/pypa/sampleproject"
-"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
+"Homepage" = "https://github.com/kabikaj/rasm"
