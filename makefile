@@ -28,26 +28,27 @@
 
 PYTHON := python3
 
-.PHONY : all install clean build_resources install_library install_man_page execute_tests help
+.PHONY : all clean build_resources install install_man_page execute_tests help
 
-all: clean build_resources install_library install_man_page execute_tests
+all: clean install install_man_page execute_tests
 
-install: install_library install_man_page execute_tests
+dev_install: clean build_resources install_man_page execute_tests install
 
 clean:
 	@echo "\n>> Cleaning resources..."
 	$(PYTHON) setup.py clean --all
 	find . -name __pycache__ -prune -exec rm -rf {} +
 	rm -rf MANIFEST build* dist*
-	rm -f resources/mushaf_*.json
+	
 
 build_resources:
 	@echo "\n>> Building resources..."
-	bash scripts/build_all.sh
+	rm -f resources/mushaf_*.json
+	bash scripts/_build_all.sh
 		
-install_library:
+install:
 	@echo "\n>> Installing rasm library..."
-	$(PYTHON) -m pip install --ignore-installed .
+	$(PYTHON) -m pip install --ignore-installed -e .
 
 install_man_page:
 	@echo "\n>> Installing man page..."
@@ -57,22 +58,22 @@ install_man_page:
 
 execute_tests:
 	@echo "\n>> Executing battery of tests..."
-	$(PYTHON) test/test_rasm.py
+	$(PYTHON) tests/test_rasm.py
 
 help:
 	@echo "    all"
-	@echo "        Clean resources, install package, man page and execute tests"
+	@echo "        Clean resources and install package"
 	@echo "    install"
-	@echo "        install rasm package, man page and execute tests"
-	@echo "    install_library"
 	@echo "        install rasm package"
 	@echo "    install_man_page"
 	@echo "        install man page."
-	@echo "    execute_tests"
-	@echo "        execute battery of tests"
+	@echo "    dev_install"
+	@echo "        compile data and install rasm package"
 	@echo "    build_resources"
 	@echo "        build resources"
 	@echo "    clean"
-	@echo "        remove resources"
+	@echo "        remove build and dist"
+	@echo "    execute_tests"
+	@echo "        execute battery of tests"
 	@echo ""
-	@echo "usage: make [help] [all] [install] [install_library] [install_man_page] [clean] [apply_test]"
+	@echo "usage: make [help] [all] [install] [install_man_page] [clean] [apply_test]"

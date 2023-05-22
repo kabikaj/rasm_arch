@@ -38,6 +38,7 @@ setup(
     version = "1.0",
     description = "text utility for converting Arabic-scripted text to a completely dediacritised skeleton",
     long_description = readme(),
+    long_description_content_type="text/markdown",
     author = "Alicia González Martínez and Thomas Milo",
     author_email = "aliciagm85+kabikaj@gmail.com",
     url = "https://gitlab.com/abjad/yakabikaj.git",
@@ -47,7 +48,6 @@ setup(
     license = 'MIT',
     classifiers = [
         "Development Status :: 5 - Production/Stable",
-        "Environment :: Other Environment",
         "Intended Audience :: Developers",
         "Intended Audience :: Information Technology",
         "License :: OSI Approved :: MIT License",
@@ -58,7 +58,6 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Topic :: Religion",
         "Topic :: Scientific/Engineering :: Information Analysis"
-        "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Text Processing :: Linguistic",
         ]
 )

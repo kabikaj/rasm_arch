@@ -27,9 +27,9 @@
 # SOFTWARE.
 #
 # usage:
-#   $ cat ../../../abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py > ../resources/mushaf_dt.json
+#   $ cat ..//abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py > ../resources/mushaf_dt.json
 #
-##########################################################################################################################
+##############################################################################################################################
 
 import io
 import re

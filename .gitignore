@@ -1,5 +1,2 @@
 build/*
 __pycache__/
-resources/mushaf.json
-resources/quran-simple.txt
-resources/quran-uthmani.txt

@@ -10,14 +10,20 @@ A minimal Rust implementation can be found under src.
 
 ## Requirements
 
-setuptools==59.1.1 \
-ujson==5.1.0
+importlib-metadata>=6.6.0 \
+ujson>=5.1.0
 
 If ujson is not installed, json will be used.
 
 ## Installation
 
-Use the makefile to install th rasm package:
+Install rasm package through pip:
+
+```sh
+$ $ python -m pip install rasm
+```
+
+Use the makefile to install the rasm package along with the rasm command-line utility and man page:
 
 ```sh
 $ make install
@@ -58,7 +64,7 @@ In python:
 ٱ        ٱ      A     ا     Aᵟ              (2, 15, 1, 1)
 ```
 
-As a bash command:
+As a command-line utility:
 
 ```sh
 >>> aspell -d ar dump master | rasm | tail -2
@@ -137,9 +143,9 @@ Rasm includes two digitised Quranic texts: The Decotype Quran and the Tanzil Qur
 
 ### Decotype Quran
 
-The Decotype Quran is the best encoded Quran with complete orthography and the only one approved by Al-Azhar until now.
+The Decotype Quran is the best encoded Quran with complete orthography and the only digital Quran that has been used to render a printed Quran approved by Al-Azhar.
 
-....
+The Decotype Quran is private.
 
 ### Tanzil Quran
 

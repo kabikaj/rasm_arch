@@ -96,7 +96,6 @@ class Rasm_Input_Text_Test(unittest.TestCase):
                           ("A", "ا", 1, {("والجِنّ", "WALG₁ᵢN¹ᵚ")}),
                           ("LGN", "لحں", 1, {("والجِنّ", "WALG₁ᵢN¹ᵚ")})])
 
-"""
 class Rasm_Input_Index_Test(unittest.TestCase):
     
     def test_1(self):
@@ -185,7 +184,6 @@ class Rasm_Input_Index_Test(unittest.TestCase):
                          [("وَٱعۡبُدُوا۟", "WAEBDWA", "واعٮدوا", (53, 62, 3)),
                           ("۩", "", "", (53, 62, 4)),
                           ("بِسۡمِ", "BSM", "ٮسم", (54, 1, 1))])
-"""
 
 class Rasm_More_Test(unittest.TestCase):
     def test_1(self):

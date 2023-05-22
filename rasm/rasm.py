@@ -38,7 +38,7 @@ except ImportError:
 from io import TextIOBase
 from string import whitespace, punctuation
 from functools import partial, singledispatch
-from pkg_resources import resource_stream
+from importlib.resources import files
 from dataclasses import dataclass
 from itertools import groupby
 
@@ -901,7 +901,7 @@ def _to_paleo(tokens):
     """ Convert Arabic-scriped token into paleo-orthographic representation and create copy in rasm representation.
 
     Args:
-        stream (iterator): stream to convert.
+        tokens (iterator): stream to convert.
 
     Yield:
         str, str, str: original token, token in paleo-prthographic representation,rasmired token in Latin, rasmired token in Arabic.
@@ -965,7 +965,7 @@ def _to_rasm(tokens):
     """ Convert cleantok to archigraphemic representation.
 
     Args:
-        stream (iterator): stream to convert.
+        tokens (iterator): stream to convert.
 
     Yield:
         str, str, str: original token, rasmired token in Latin, rasmired token in Arabic.
@@ -1024,17 +1024,13 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False):
     if source == 'tanzil-uthmani':
         source_file = SOURCE.TANZIL_UTHMANI
     elif source == 'decotype':
+        if not files('resources').joinpath(SOURCE.DECOTYPE).exists():
+            raise PrivateFileError
         source_file = SOURCE.DECOTYPE
     else:
         source_file = SOURCE.TANZIL_SIMPLE 
 
-    with resource_stream('resources', source_file) as fp:
-
-        if source == 'decotype':
-            fp.seek(0)
-            if not fp.read(1):
-                raise PrivateFileError
-
+    with files('resources').joinpath(source_file).open() as fp:
         quran = json.load(fp)
     
         i, j, k, m = [(ind-1 if ind else ind) for ind in index[0]]
@@ -1304,9 +1300,7 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', i
         blocks_quran = _get_blocks(input_, source, only_rasm)
 
         # group blocks into words
-        blocks_gr = (list(gr) for _, gr in groupby(blocks_quran, key=lambda x: (x[1][1], x[1][2]))) #FIXME rasm -q 42:1:5-42:3:3 --pal --source decotype
-
-        #for x in blocks_gr: print(f'~/DEBUG/~ fooo', x, file=sys.stderr) #DEBUG
+        blocks_gr = (list(gr) for _, gr in groupby(blocks_quran, key=lambda x: (x[1][1], x[1][2])))
 
         if not blocks:
 

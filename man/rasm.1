@@ -16,7 +16,7 @@ The input must be an Arabic-cripted text. Default output is the original token a
 .B --text TEXT
 Input stream. Mutually exclusive with --quran.
 .TP
-.B --quran RANGE
+.B -q, --quran RANGE
 Index range s[:v[:w]]-s[:v[:w]], e.g. "1:1:1-3:2:2". Mutually exclusive with --text.
 .TP
 .B -s, --source {tanzil-simple, tanzil-uthmani, decotype}
@@ -31,19 +31,19 @@ Add paleo-orthographic representation to the output.
 .B -b, --blocks
 Return the result in letterblocks istead of words.
 .TP
-.B -b, --only_rasm
+.B --only_rasm
 Do not print start of rub el hizb (۞ U+06de) nor place of sajda (۩ U+06e9) [only for --quran]
 .TP
 .B -u, --uniq
 List of unique letterblocks, their number of occurences and the list of words where they appear.
 .TP
 .B --sep
-Indicate desired separator for text output [Default \t].
+Indicate desired separator for text output [Default TAB].
 .TP
 .B --json
 Return output in json format.
 .TP
-.B -v
+.B --version
 Prints the program version number and exits successfully.
 .TP
 .B -h

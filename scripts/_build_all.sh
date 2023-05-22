@@ -32,7 +32,7 @@ MYDIR=$(dirname "$0")
 
 TANZIL_SIMPLE_INPUT="$MYDIR"/../resources/quran-simple.txt
 TANZIL_UTHMANI_INPUT="$MYDIR"/../resources/quran-uthmani.txt
-DECOTYPE_INPUT="$MYDIR"/../resources/mushaf.json
+DECOTYPE_INPUT="$MYDIR"/../../../abjad/abjad_util/data/processed/mushaf.json
 
 TANZIL_SIMPLE_OUTPUT="$MYDIR"/../resources/mushaf_simple.json
 TANZIL_UTHMANI_OUTPUT="$MYDIR"/../resources/mushaf_uthmani.json
