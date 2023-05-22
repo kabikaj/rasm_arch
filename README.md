@@ -1,10 +1,10 @@
-# Rasm
+# Rasm Arch
 
-> Rasm is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton.
+> Rasm_arch is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton.
 
-<img src="./rasm.png" align="middle">
+<img src="./rasm_arch.png" align="middle">
 
-Rasm is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton. If Quranic indexes are given, it can also retrieve Quranic text.
+Rasm_arch is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton. If Quranic indexes are given, it can also retrieve Quranic text.
 
 A minimal Rust implementation can be found under src.
 
@@ -17,13 +17,13 @@ If ujson is not installed, json will be used.
 
 ## Installation
 
-Install rasm package and rasm command-line utility through pip:
+Install rasm_arch package and rasm_arch command-line utility through pip:
 
 ```sh
-$ $ python -m pip install rasm
+$ $ python -m pip install rasm_arch
 ```
 
-Install rasm package and rasm command-line utility along with the man page locally using the makefile:
+Install rasm_arch package and rasm_arch command-line utility along with the man page locally using the makefile:
 
 ```sh
 $ make install
@@ -32,7 +32,7 @@ $ make install
 Use the following commands to uninstall it:
 
 ```sh
-$ pip uninstall rasm
+$ pip uninstall rasm_arch
 ```
 
 or
@@ -48,7 +48,7 @@ In python:
 
 ```sh
 >>> import io
->>> from rasm import rasm
+>>> from rasm_arch import rasm_arch as rasm
 >>> for ori, rlt, rar, pal in rasm(io.StringIO('کُتِب'), paleo=True):
 ...   print(ori, rlt, rar, pal)
 کُتِب KBB كٮٮ KᵘB²ᵢB₁
@@ -57,7 +57,7 @@ In python:
 
 ```sh
 >>> import io
->>> from rasm import rasm
+>>> from rasm_arch import rasm_arch as rasm
 >>> for word, blocks in rasm(((2, 14,15, None), (2, 15, 1, 1)), paleo=True, blocks=True):
 ...   print(word, *blocks[0], sep='\t')
 ...   if len(blocks)>1:
@@ -73,13 +73,13 @@ In python:
 As a command-line utility:
 
 ```sh
->>> aspell -d ar dump master | rasm | tail -2
+>>> aspell -d ar dump master | rasm_arch | tail -2
 يين  BBN  ٮٮں
 ييئس BBBS ٮٮٮس
 ```
 
 ```sh
->>> rasm -q 2:1:4-2:1:5:1 --uniq --json | jq .
+>>> rasm_arch -q 2:1:4-2:1:5:1 --uniq --json | jq .
 [
   {
     "ori": "A",
@@ -111,7 +111,7 @@ As a command-line utility:
 
 ## License for the code
  
-Rasm is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton.
+Rasm_arch is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton.
 
 The code for this project is licensed under the MIT License.
 
@@ -141,7 +141,7 @@ SOFTWARE.
 
 ## License for the data
 
-Rasm includes two digitised Quranic texts: The Decotype Quran and the Tanzil Quran.
+Rasm_arch includes two digitised Quranic texts: The Decotype Quran and the Tanzil Quran.
 
 ### Decotype Quran
 

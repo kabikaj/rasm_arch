@@ -3,11 +3,11 @@ requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rasm"
+name = "rasm_arch"
 version = "1.0.1"
-description = "Rasm is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton"
+description = "Rasm_arch is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton"
 readme = "README.md"
-authors = [{ name = "Alicia González Martínez", email = "aliciagm85+rasm@google.com" },
+authors = [{ name = "Alicia González Martínez", email = "aliciagm85+rasm_arch@google.com" },
            { name = "Thomas Milo"}]
 license = { file = "LICENSE" }
 classifiers = [
@@ -20,9 +20,9 @@ classifiers = [
     "Intended Audience :: Information Technology",
     "Natural Language :: Arabic",
     "Natural Language :: Persian",
-    "Natural Language :: Urdu"
+    "Natural Language :: Urdu",
     "Topic :: Religion",
-    "Topic :: Scientific/Engineering :: Information Analysis"
+    "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Text Processing :: Linguistic",
 ]
 keywords = ["arabic", "persian", "urdu", "quran", "manuscript", "rasm", "unicode", "NLP", "digital humanities"]
@@ -38,7 +38,7 @@ dev = [
 ]
 
 [project.scripts]
-rasm = "rasm.bin.rasm"
+rasm_arch = "rasm_arch.bin.rasm_arch"
 
 [project.urls]
-"Homepage" = "https://github.com/kabikaj/rasm"
+"Homepage" = "https://github.com/kabikaj/rasm_arch"

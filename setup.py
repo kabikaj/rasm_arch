@@ -32,8 +32,8 @@ def readme():
         return fp.read()
 
 setup(
-    name = "rasm",
-    packages = ["rasm", "resources"],
+    name = "rasm_arch",
+    packages = ["rasm_arch"],
     package_data = {'resources' : ['mushaf_simple.json', 'mushaf_uthmani.json', 'mushaf_dt.json']},
     version = "1.0.1",
     description = "text utility for converting Arabic-scripted text to a completely dediacritised skeleton",
@@ -42,7 +42,7 @@ setup(
     author = "Alicia González Martínez and Thomas Milo",
     author_email = "aliciagm85+kabikaj@gmail.com",
     url = "https://gitlab.com/abjad/yakabikaj.git",
-    download_url = "git@gitlab.com:abjad/yakabikaj.git",
+    download_url = "https://github.com/kabikaj/rasm",
     scripts=['bin/rasm'],
     keywords = ["arabic", "persian", "urdu", "quran", "manuscript", "rasm", "unicode", "NLP", "digital humanities"],
     license = 'MIT',
@@ -53,11 +53,11 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Natural Language :: Arabic",
         "Natural Language :: Persian",
-        "Natural Language :: Urdu"
+        "Natural Language :: Urdu",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.8",
         "Topic :: Religion",
-        "Topic :: Scientific/Engineering :: Information Analysis"
+        "Topic :: Scientific/Engineering :: Information Analysis",
         "Topic :: Text Processing :: Linguistic",
         ]
 )

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#    test_rasm.py                                    ا
+#    test_rasm_arch.py                                    ا
 #                                                   ح   ه
 #                                                  ف   ذ   ا   
 #                                                 ظ   ا   ل   ي   
@@ -11,15 +11,15 @@
 #                                                    ر       ج      
 # usage:
 #   apply all tests:
-#     $ python test_rasm
-#     $ python -m unittest test_rasm
+#     $ python test_rasm_arch
+#     $ python -m unittest test_rasm_arch
 #   apply specific test
-#     $ python -m unittest test_rasm.Rasm_Input_Text_Test
-#     $ python -m unittest test_rasm.Rasm_Input_Index_Test
-#     $ python -m unittest test_rasm.Rasm_More_Test
+#     $ python -m unittest test_rasm_arch.Rasm_Input_Text_Test
+#     $ python -m unittest test_rasm_arch.Rasm_Input_Index_Test
+#     $ python -m unittest test_rasm_arch.Rasm_More_Test
 #
 # profiling:
-#   $ hyperfine 'rasm --text <(echo فوو) --paleo --blocks' --warmup 1
+#   $ hyperfine 'rasm_arch --text <(echo فوو) --paleo --blocks' --warmup 1
 #   $ find ~/Documents/openITI/RELEASE/data -name *-ara1 -exec cat {} + | rasm --blocks | wc -l
 #
 # MIT License
@@ -49,12 +49,12 @@
 import io
 import unittest
 from argparse import ArgumentParser
-from pkg_resources import resource_exists
+from importlib.resources import files
 
-from rasm import rasm
-from rasm.util import SOURCE
+from rasm_arch import rasm_arch as rasm
+from rasm_arch.util import SOURCE
 
-RESOURSE_EXISTS = resource_exists('resources', SOURCE.DECOTYPE)
+RESOURSE_EXISTS = files('resources').joinpath(SOURCE.DECOTYPE).exists()
 
 class Rasm_Input_Text_Test(unittest.TestCase):
 

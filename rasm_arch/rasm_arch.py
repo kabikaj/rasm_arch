@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#    rasm.py
+#    rasm_arch.py
 #
 # convert arabic script to archigraphemes
 #
@@ -42,7 +42,7 @@ from importlib.resources import files
 from dataclasses import dataclass
 from itertools import groupby
 
-from rasm.util import SOURCE, ABJAD_MAPPING, PrivateFileError, pipe
+from rasm_arch.util import SOURCE, ABJAD_MAPPING, PrivateFileError, pipe
 
 @dataclass
 class DATA:
@@ -1083,10 +1083,10 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False):
                             yield (tok, rlt, rar, pal), (isura+1, ivers+1, iword+1, iblock+1)
 
 @singledispatch
-def rasm(input_):
+def rasm_arch(input_):
     raise NotImplementedError('Unsupported type')
 
-@rasm.register(TextIOBase)
+@rasm_arch.register(TextIOBase)
 def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, ignore_alif=False):
     """ Clean, tokenise and convert text to archigraphemic representation.
 
@@ -1192,7 +1192,7 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, ign
         else:
             yield from ((ori, *(r.replace(' ', '') for r in rest)) for ori, *rest in results)
 
-@rasm.register(tuple)
+@rasm_arch.register(tuple)
 def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', ignore_alif=False, only_rasm=False):
     """ Retrieve quranic text in archegraphemic representation according to index range.
 
