@@ -1,7 +1,7 @@
 env/*
 build/*
 __pycache__/
-rasm.egg-info/*
+rasm_arch.egg-info/*
 src/rust/rasm/target/*
 dist/*
 instructions

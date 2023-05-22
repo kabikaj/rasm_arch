@@ -52,13 +52,13 @@ install:
 
 install_man_page:
 	@echo "\n>> Installing man page..."
-	sudo cp man/rasm.1 /usr/share/man/man1/rasm.1
-	sudo gzip -f /usr/share/man/man1/rasm.1
+	sudo cp man/rasm_arch.1 /usr/share/man/man1/rasm_arch.1
+	sudo gzip -f /usr/share/man/man1/rasm_arch.1
 	mandb
 
 execute_tests:
 	@echo "\n>> Executing battery of tests..."
-	$(PYTHON) tests/test_rasm.py
+	$(PYTHON) tests/test_rasm_arch.py
 
 help:
 	@echo "    all"
