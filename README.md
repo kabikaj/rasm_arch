@@ -2,7 +2,7 @@
 
 > Rasm_arch is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton.
 
-<img src="./rasm_arch.png" align="middle">
+<img src="https://raw.githubusercontent.com/kabikaj/rasm_arch/main/rasm_arch.png" align="middle">
 
 Rasm_arch is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton. If Quranic indexes are given, it can also retrieve Quranic text.
 
