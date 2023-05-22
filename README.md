@@ -17,19 +17,25 @@ If ujson is not installed, json will be used.
 
 ## Installation
 
-Install rasm package through pip:
+Install rasm package and rasm command-line utility through pip:
 
 ```sh
 $ $ python -m pip install rasm
 ```
 
-To install the rasm package along with the rasm command-line utility and man page download the source and use makefile locally:
+Install rasm package and rasm command-line utility along with the man page locally using the makefile:
 
 ```sh
 $ make install
 ```
 
 Use the following commands to uninstall it:
+
+```sh
+$ pip uninstall rasm
+```
+
+or
 
 ```sh
 $ python setup.py install --record files.txt
