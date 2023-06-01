@@ -5,8 +5,8 @@ authors:
     given-names: Alicia
   - family-names: Milo
     given-names: Thomas
-title: "Rasm"
-version: 1.0
+title: "Rasm-Arch"
+version: 1.1.0
 license: MIT
-repository-code: "https://github.com/kabikaj/rasm"
+repository-code: "https://github.com/kabikaj/rasm_arch"
 date-released: 2022-10-01
