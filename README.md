@@ -136,6 +136,10 @@ As a command-line utility:
 ]
 ```
 
+## Version
+
+1.2.0
+
 ## License for the code
  
 Rasm_arch is a text processing utility for converting Arabic-scripted text to a completely dediacritised skeleton.
@@ -146,7 +150,7 @@ Be aware that if you use the Quranic text from rasm, they have two different lic
 
 MIT License
 
-Copyright (c) 2022 Alicia González Martínez and Thomas Milo
+Copyright (c) 2023 Alicia González Martínez and Thomas Milo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
