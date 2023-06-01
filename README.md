@@ -106,31 +106,26 @@ As a command-line utility:
 ```
 
 ```sh
->>> rasm-arch -q 2:286:35-2:286:36 --unstable_alif --json | jq .
+>>> rasm-arch -q 2:286:35-2:286:36 --json | jq .
 [
   {
-    "ori": "A",
-    "rlt": "ا",
-    "rar": 2,
-    "frq": [
-      "ٱلرَّحِیمِ",
-      "ا"
+    "ori": "لَا",
+    "rlt": "LA",
+    "rar": "لا",
+    "ind": [
+      2,
+      286,
+      35
     ]
   },
   {
-    "ori": "GBM",
-    "rlt": "حٮم",
-    "rar": 1,
-    "frq": [
-      "ٱلرَّحِیمِ"
-    ]
-  },
-  {
-    "ori": "LR",
-    "rlt": "لر",
-    "rar": 1,
-    "frq": [
-      "ٱلرَّحِیمِ"
+    "ori": "طَاقَةَ",
+    "rlt": "TAFH",
+    "rar": "طاڡه",
+    "ind": [
+      2,
+      286,
+      36
     ]
   }
 ]

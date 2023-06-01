@@ -1212,7 +1212,7 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, uns
             yield from ((ori, *(r.replace(' ', '') for r in rest)) for ori, *rest in results)
 
 @rasm_arch.register(tuple)
-def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', unstable_alif=False, only_rasm=False):
+def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', only_rasm=False):
     """ Retrieve quranic text in archegraphemic representation according to index range.
 
     Args:
@@ -1320,8 +1320,6 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', u
 
         # group blocks into words
         blocks_gr = (list(gr) for _, gr in groupby(blocks_quran, key=lambda x: (x[1][1], x[1][2])))
-
-        blocks_gr = resolve_alif(blocks_gr, unstable=unstable_alif)
 
         if not blocks:
 

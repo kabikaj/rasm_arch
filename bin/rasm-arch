@@ -128,7 +128,7 @@ if __name__ == '__main__':
     parser.add_argument('--paleo', '-p', action='store_true', help='include paleo-orthographic representation of text')
     parser.add_argument('--blocks', '-b', action='store_true', help='return results in letterblocks, instead of words')
     parser.add_argument('--only_rasm', action='store_true', help='do not print start of rub el hizb (۞ U+06de) nor place of sajda (۩ U+06e9) [only for --quran]')
-    parser.add_argument('--unstable_alif', '-a', action='store_true', help='remove fatha+alif in non final positions as it is unstable')
+    parser.add_argument('--unstable_alif', '-a', action='store_true', help='remove fatha+alif in non final positions as it is unstable. It works with text option only.')
     parser.add_argument('--uniq', '-u', action='store_true', help='output each unique archigraphemic letterblock, no. of occurrences and list of them')
     parser.add_argument('--sep', default='\t', help='field separator for text output [DEFAULT \\t]')
     parser.add_argument('--json', action='store_true', help='print output in json instead of plain text')
@@ -142,7 +142,6 @@ if __name__ == '__main__':
                                       blocks=args.blocks,
                                       uniq=args.uniq,
                                       source=args.source,
-                                      unstable_alif=args.unstable_alif,
                                       only_rasm=args.only_rasm)    
         else:
             result = rasm(args.text, paleo=args.paleo,
