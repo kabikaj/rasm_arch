@@ -1046,7 +1046,7 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False):
     else:
         source_file = SOURCE.TANZIL_SIMPLE
 
-    source_path = files('data').joinpath(source_file)
+    source_path = files('rasm_arch_data').joinpath(source_file)
 
     if source == 'decotype' and not source_path.exists():
         raise PrivateFileError

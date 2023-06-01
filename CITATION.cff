@@ -6,7 +6,7 @@ authors:
   - family-names: Milo
     given-names: Thomas
 title: "Rasm-Arch"
-version: 1.2.3
+version: 1.2.5
 license: MIT
 repository-code: "https://github.com/kabikaj/rasm_arch"
 date-released: 2022-10-01

@@ -34,9 +34,9 @@ def readme():
 
 setup(
     name = "rasm_arch",
-    packages = ["rasm_arch"],
-    package_data={'rasm_arch': ['data/*.json']},
-    version = "1.2.3",
+    packages = ["rasm_arch", "rasm_arch_data"],
+    package_data={"rasm_arch_data": ["*.json"]},
+    version = "1.2.5",
     description = "text utility for converting Arabic-scripted text to a completely dediacritised skeleton",
     long_description = readme(),
     long_description_content_type="text/markdown",
