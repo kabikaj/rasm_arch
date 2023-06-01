@@ -4,4 +4,6 @@ __pycache__/
 rasm_arch.egg-info/*
 src/rust/rasm/target/*
 dist/*
+rasm_arch/resources/*.txt
+rasm_arch/resources/mushaf_dt*
 instructions

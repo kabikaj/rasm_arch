@@ -26,6 +26,7 @@
 #################################################################################
 
 from distutils.core import setup
+import os.path
 
 def readme():
     with open('README.md') as fp:
@@ -33,8 +34,14 @@ def readme():
 
 setup(
     name = "rasm_arch",
-    packages = ["rasm_arch", "resources"],
-    package_data = {'resources' : ['mushaf_simple.json', 'mushaf_uthmani.json', 'mushaf_dt.json']},
+    packages = ["rasm_arch"],
+    package_data = {
+        os.path.join('rasm_arch', 'resources') : [
+            'mushaf_simple.json', 'mushaf_simple_u.json',
+            'mushaf_uthmani.json', 'mushaf_uthmani_u.json',
+            'mushaf_dt.json', 'mushaf_dt_u.json'
+        ]
+    },
     version = "1.0.2",
     description = "text utility for converting Arabic-scripted text to a completely dediacritised skeleton",
     long_description = readme(),
@@ -43,7 +50,7 @@ setup(
     author_email = "aliciagm85+kabikaj@gmail.com",
     url = "https://github.com/kabikaj/rasm_arch",
     download_url = "https://github.com/kabikaj/rasm_arch",
-    scripts=['bin/rasm_arch'],
+    scripts=['bin/rasm-arch'],
     keywords = ["arabic", "persian", "urdu", "quran", "manuscript", "rasm", "unicode", "NLP", "digital humanities"],
     license = 'MIT',
     classifiers = [

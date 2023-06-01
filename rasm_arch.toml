@@ -38,7 +38,7 @@ dev = [
 ]
 
 [project.scripts]
-rasm_arch = "rasm_arch.bin.rasm_arch"
+rasm_arch = "rasm_arch.bin.rasm-arch"
 
 [project.urls]
 "Homepage" = "https://github.com/kabikaj/rasm_arch"

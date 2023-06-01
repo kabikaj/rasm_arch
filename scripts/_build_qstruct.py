@@ -31,10 +31,12 @@
 # SOFTWARE.
 #
 # usage:
-#   $ cat ../resources/quran-simple.txt | python _build_qstruct.py > ../resources/mushaf_simple.json
-#   $ cat ../resources/quran-uthmani.txt | python _build_qstruct.py > ../resources/mushaf_uthmani.json
+#   $ cat ../rasm_arch/resources/quran-simple.txt | python _build_qstruct.py > ../rasm_arch/resources/mushaf_simple.json
+#   $ cat ../rasm_arch/resources/quran-simple.txt | python _build_qstruct.py -u > ../rasm_arch/resources/mushaf_simple_u.json
+#   $ cat ../rasm_arch/resources/quran-uthmani.txt | python _build_qstruct.py > ../rasm_arch/resources/mushaf_uthmani.json
+#   $ cat ../rasm_arch/resources/quran-uthmani.txt | python _build_qstruct.py -u > ../rasm_arch/resources/mushaf_uthmani_u.json
 #
-#######################################################################################################
+###############################################################################################################################
 
 import io
 import re
@@ -45,7 +47,7 @@ except ModuleNotFoundError:
     import json
 from argparse import ArgumentParser, FileType
 
-from rasm import rasm
+from rasm_arch import rasm_arch as rasm
 
 STRUCT = {'tok' : [],  # [(tok, pal), ... ] 
           'ind' : [],  # [[[[itok, ... ], ...], ...], ...] # sura[vers][word][block] ; +1 to calculate the real index
@@ -74,12 +76,13 @@ if __name__ == '__main__':
     parser = ArgumentParser(description='prepare tanzil quran the rasm package')
     parser.add_argument('infile', nargs='?', type=FileType('r'), default=sys.stdin, help='tanzil quran')
     parser.add_argument('outfile', nargs='?', type=FileType('w'), default=sys.stdout, help='processed quran')
+    parser.add_argument('--unstable', '-u', action='store_true', help='delete unstable alif')
     args = parser.parse_args()
 
     pre_sura, pre_vers, pre_word = -1, -1, -1
     for word_tok, sura, vers, word in proc_quran(args.infile):
 
-        blocks_groups = [bks for _, bks in rasm(io.StringIO(word_tok), paleo=True, blocks=True)]
+        blocks_groups = [bks for _, bks in rasm(io.StringIO(word_tok), paleo=True, blocks=True, unstable_alif=args.unstable)]
 
         # ۞ ۩
         if not blocks_groups[0]:

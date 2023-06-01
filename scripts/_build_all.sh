@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#    execute_all.sh
+#    _build_all.sh
 #
 # prepare all quran data structure for rasm
 #
@@ -26,17 +26,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+# usage:
+#   $ bash _build_all.sh -f
+#
 ################################################################################
 
 MYDIR=$(dirname "$0")
 
-TANZIL_SIMPLE_INPUT="$MYDIR"/../resources/quran-simple.txt
-TANZIL_UTHMANI_INPUT="$MYDIR"/../resources/quran-uthmani.txt
+TANZIL_SIMPLE_INPUT="$MYDIR"/../rasm_arch/resources/quran-simple.txt
+TANZIL_UTHMANI_INPUT="$MYDIR"/../rasm_arch/resources/quran-uthmani.txt
 DECOTYPE_INPUT="$MYDIR"/../../../abjad/abjad_util/data/processed/mushaf.json
 
-TANZIL_SIMPLE_OUTPUT="$MYDIR"/../resources/mushaf_simple.json
-TANZIL_UTHMANI_OUTPUT="$MYDIR"/../resources/mushaf_uthmani.json
-DECOTYPE_OUTPUT="$MYDIR"/../resources/mushaf_dt.json
+TANZIL_SIMPLE_OUTPUT="$MYDIR"/../rasm_arch/resources/mushaf_simple.json
+TANZIL_SIMPLE_OUTPUT_U="$MYDIR"/../rasm_arch/resources/mushaf_simple_u.json
+TANZIL_UTHMANI_OUTPUT="$MYDIR"/../rasm_arch/resources/mushaf_uthmani.json
+TANZIL_UTHMANI_OUTPUT_U="$MYDIR"/../rasm_arch/resources/mushaf_uthmani_u.json
+DECOTYPE_OUTPUT="$MYDIR"/../rasm_arch/resources/mushaf_dt.json
+DECOTYPE_OUTPUT_U="$MYDIR"/../rasm_arch/resources/mushaf_dt_u.json
 
 HELP='\n'\
 'usage:\n'\
@@ -68,17 +74,20 @@ parse_arguments $@
 
 if [[ ! -f $TANZIL_SIMPLE_OUTPUT || $FORCE_FLAG -eq 1 ]] ; then
     cat $TANZIL_SIMPLE_INPUT | python "$MYDIR"/_build_qstruct.py > $TANZIL_SIMPLE_OUTPUT ;
+    cat $TANZIL_SIMPLE_INPUT | python "$MYDIR"/_build_qstruct.py -u > $TANZIL_SIMPLE_OUTPUT_U ;
     echo "tanzil simple processed!" >/dev/stderr
 fi &&
 
 if [[ ! -f $TANZIL_UTHMANI_OUTPUT || $FORCE_FLAG -eq 1 ]] ; then
     cat $TANZIL_UTHMANI_INPUT | python "$MYDIR"/_build_qstruct.py > $TANZIL_UTHMANI_OUTPUT ;
+    cat $TANZIL_UTHMANI_INPUT | python "$MYDIR"/_build_qstruct.py -u > $TANZIL_UTHMANI_OUTPUT_U ;
     echo "tanzil uthmani processed!" >/dev/stderr
 fi  &&
 
 if [[ ! -f $DECOTYPE_OUTPUT || $FORCE_FLAG -eq 1 ]] ; then
-    if [ -f $DECOTYPE ] ; then
+    if [ -f $DECOTYPE_INPUT ] ; then
         cat $DECOTYPE_INPUT | python "$MYDIR"/_build_qstruct_dt.py > $DECOTYPE_OUTPUT ;
+        cat $DECOTYPE_INPUT | python "$MYDIR"/_build_qstruct_dt.py -u > $DECOTYPE_OUTPUT_U ;
         echo "decotype processed!"
     fi
 fi

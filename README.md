@@ -65,6 +65,26 @@ In python:
 ```sh
 >>> import io
 >>> from rasm_arch import rasm_arch as rasm
+>>> for word, blocks in rasm(io.StringIO("فنار الإسكندرية"), blocks=True, paleo=True):
+...   print(f"word = {word}")
+...   for ori, rlt, rar, pal in blocks:
+...     print("--", ori, rlt, rar, pal)
+word = فنار
+-- فنا FBA ڡٮا F¹B¹A
+-- ر R ر R
+word = الإسكندرية
+-- ا A ا A
+-- لإ LA لا LAɂ
+-- سكند SKBD سكٮد SKB¹D
+-- ر R ر R
+-- ية BH ٮه B₂H²
+```
+
+In python with Quran indexes as input:
+
+```sh
+>>> import io
+>>> from rasm_arch import rasm_arch as rasm
 >>> for word, blocks in rasm(((2, 14,15, None), (2, 15, 1, 1)), paleo=True, blocks=True):
 ...   print(word, *blocks[0], sep='\t')
 ...   if len(blocks)>1:
@@ -80,13 +100,13 @@ In python:
 As a command-line utility:
 
 ```sh
->>> aspell -d ar dump master | rasm_arch | tail -2
+>>> aspell -d ar dump master | rasm-arch | tail -2
 يين  BBN  ٮٮں
 ييئس BBBS ٮٮٮس
 ```
 
 ```sh
->>> rasm_arch -q 2:1:4-2:1:5:1 --uniq --json | jq .
+>>> rasm-arch -q 2:286:35-2:286:36 --unstable_alif --json | jq .
 [
   {
     "ori": "A",

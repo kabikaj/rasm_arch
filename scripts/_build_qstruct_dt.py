@@ -27,9 +27,10 @@
 # SOFTWARE.
 #
 # usage:
-#   $ cat ..//abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py > ../resources/mushaf_dt.json
+#   $ cat ../../../abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py > ../rasm_arch/resources/mushaf_dt.json
+#   $ cat ../../../abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py -u > ../rasm_arch/resources/mushaf_dt_u.json
 #
-##############################################################################################################################
+#########################################################################################################################################
 
 import io
 import re
@@ -40,7 +41,7 @@ except ModuleNotFoundError:
     import json
 from argparse import ArgumentParser, FileType
 
-from rasm import rasm
+from rasm_arch import rasm_arch as rasm
 
 STRUCT = {'tok' : [],  # [(tok, pal), ... ]
           'ind' : [],  # [[[[itok, ... ], ...], ...], ...] # sura[vers][word][block] ; +1 to calculate the real index
@@ -51,6 +52,7 @@ if __name__ == '__main__':
     parser = ArgumentParser(description='prepare decotype quran for rasm')
     parser.add_argument('infile', nargs='?', type=FileType('r'), default=sys.stdin, help='complete mushaf struct')
     parser.add_argument('outfile', nargs='?', type=FileType('wb'), default=sys.stdout, help='output stream')
+    parser.add_argument('--unstable', '-u', action='store_true', help='delete unstable alif')
     args = parser.parse_args()
 
     mushaf = ((i['tok'], i['sura'], i['vers'], i['word']) for i in json.load(args.infile))
@@ -58,7 +60,7 @@ if __name__ == '__main__':
     pre_sura, pre_vers, pre_word = -1, -1, -1
     for word_tok, sura, vers, word in mushaf:
 
-        blocks_groups = [bks for _, bks in rasm(io.StringIO(word_tok), paleo=True, blocks=True)]
+        blocks_groups = [bks for _, bks in rasm(io.StringIO(word_tok), paleo=True, blocks=True, unstable_alif=args.unstable)]
 
         # e.g. ۞
         if not blocks_groups[0]:

@@ -33,8 +33,11 @@ from dataclasses import dataclass
 @dataclass
 class SOURCE:
     TANZIL_SIMPLE = 'mushaf_simple.json'
+    TANZIL_SIMPLE_U = 'mushaf_simple_u.json'
     TANZIL_UTHMANI = 'mushaf_uthmani.json'
+    TANZIL_UTHMANI_U = 'mushaf_uthmani_u.json'
     DECOTYPE = 'mushaf_dt.json'
+    DECOTYPE_U = 'mushaf_dt_u.json'
 
 class PrivateFileError(FileNotFoundError):
     """Exception raised when resources file is not found

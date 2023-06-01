@@ -93,6 +93,14 @@ class DATA:
         ** {c : 'D' for c in D},
         ** {c : 'W' for c in W}
     }
+
+    NORM_MAPPING = {
+        'ََ': 'ً',
+        'ُُ': 'ٌ',
+        'ِِ': 'ٍ',
+    }
+
+    NORM_REGEX = re.compile('|'.join(NORM_MAPPING))
     
     CLUSTERS = {
         "ﯪ" : "ئا",
@@ -897,11 +905,15 @@ class DATA:
     ARDW_AR = ''.join((A, R, D, W))
     BLOCKS_REGEX = re.compile(rf'((?:[{ARDW_AR}]|.+?[{ARDW_AR}])[^{CHAR}]*|.+)')
 
-def _to_paleo(tokens):
+    UNSTABLE_ALIF_REGEX = re.compile(r'ᵃA(?=.)')
+    UNSTABLE_ALIF_ARA_REGEX = re.compile(r'َا(?=.)')
+
+def _to_paleo(tokens, /, unstable_alif=False):
     """ Convert Arabic-scriped token into paleo-orthographic representation and create copy in rasm representation.
 
     Args:
         tokens (iterator): stream to convert.
+        unstable_alif (bool): if True, delete fatha+alif in conversion.
 
     Yield:
         str, str, str: original token, token in paleo-prthographic representation,rasmired token in Latin, rasmired token in Arabic.
@@ -923,6 +935,8 @@ def _to_paleo(tokens):
 
         # convert graphemes to rasm
         pal = DATA.RASM_REGEX.sub(lambda m: DATA.RASM_MAPPING[m.group(0)], pal)
+        if unstable_alif:
+            pal = DATA.UNSTABLE_ALIF_REGEX.sub('', pal)
 
         pal = DATA.ARDW_REGEX.sub(r'\1 ', pal)
 
@@ -949,16 +963,19 @@ def _tokenise(stream, /, norm_clusters=False):
 
     yield from (tok for line in stream for tok in re.split(rf'[{whitespace}{punctuation}؟،؛]', line) if tok)
 
-def _clean(tokens):
+def _clean(tokens, /, unstable_alif=False):
     """ Create a copy each token in tokens containing no Arabic-scripted characters.
 
     Args:
         tokens (iterator): tokens to clean.
+        unstable_alif (bool): if True, delete fatha+alif in conversion.
 
     Yield:
         str, str: original token, cleaned token. Nothing if clean token is empty.
 
     """
+    if unstable_alif:
+        tokens = (DATA.UNSTABLE_ALIF_ARA_REGEX.sub('', tok) for tok in tokens)
     yield from ((ori, DATA.CLEAN_REGEX.sub('', ori)) for ori in tokens)
 
 def _to_rasm(tokens):
@@ -1003,7 +1020,7 @@ def _uniq(stream, /, paleo=False):
 
     yield from sorted(((*block, len(gr), set(gr)) for block, gr in groups), key=lambda x: x[2], reverse=True)
 
-def _get_blocks(index, source='tanzil-simple', only_rasm=False):
+def _get_blocks(index, source='tanzil-simple', only_rasm=False, unstable_alif=False):
     """ Get sequence of Quran blocks from Quran index range.
 
     Args:
@@ -1012,6 +1029,7 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False):
         source ("tanzil-simple", "tanzil-uthmani", "decotype"): indicate the text source from which to retrieve the results.
             If the source is different from the three indicated above, tanzil-simple will be used.
         only_rasm (bool): do not print start of rub el hizb (۞ U+06de) nor place of sajda (۩ U+06e9) in output.
+        unstable_alif (bool): if True, delete fatha+alif in conversion.
 
     Yield:
         tuple: (original_token, rarm_latin, rarm_arabic, paleo), (sura_page, vers_line, word, block)
@@ -1022,15 +1040,15 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False):
 
     """ 
     if source == 'tanzil-uthmani':
-        source_file = SOURCE.TANZIL_UTHMANI
+        source_file = SOURCE.TANZIL_UTHMANI_U if unstable_alif else SOURCE.TANZIL_UTHMANI
     elif source == 'decotype':
-        if not files('resources').joinpath(SOURCE.DECOTYPE).exists():
+        source_file = SOURCE.DECOTYPE_U if unstable_alif else SOURCE.DECOTYPE
+        if not files('rasm_arch.resources').joinpath(source_file).exists():
             raise PrivateFileError
-        source_file = SOURCE.DECOTYPE
     else:
-        source_file = SOURCE.TANZIL_SIMPLE 
+        source_file = SOURCE.TANZIL_SIMPLE_U if unstable_alif else SOURCE.DECOTYPE
 
-    with files('resources').joinpath(source_file).open() as fp:
+    with files('rasm_arch.resources').joinpath(source_file).open() as fp:
         quran = json.load(fp)
     
         i, j, k, m = [(ind-1 if ind else ind) for ind in index[0]]
@@ -1087,7 +1105,7 @@ def rasm_arch(input_):
     raise NotImplementedError('Unsupported type')
 
 @rasm_arch.register(TextIOBase)
-def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, ignore_alif=False):
+def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, unstable_alif=False):
     """ Clean, tokenise and convert text to archigraphemic representation.
 
                +----------------+     +-----------+     +--------+     +----------+     
@@ -1109,7 +1127,7 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, ign
         blocks (bool): yield results in letterblocks, not words (irrelevant if uniq == True).
         uniq (bool): if True, map letterblocks with list of tokens the appear and show absolute frequency.
         norm_clusters (bool): if True, normalise Arabic clusters to decomposed form before conversion.
-        ignore_alif (bool): if True, ignore all alifs in rasm conversion.
+        unstable_alif (bool): if True, delete fatha+alif in conversion.
 
     Yield:
         (if uniq==False and blocks==False and paleo==False)
@@ -1169,11 +1187,11 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, ign
 
     if paleo:
         # normalise tanwin
-        input_ = (s.strip().replace('ََ', 'ً').replace('ُُ', 'ٌ').replace('ِِ', 'ٍ') for s in input_)
-        procs += _to_paleo,
+        input_ =  (DATA.NORM_REGEX.sub(lambda m: DATA.NORM_MAPPING[m.group(0)], s) for s in input_)
+        procs += partial(_to_paleo, unstable_alif=unstable_alif),
 
     else:
-        procs += partial(_clean), _to_rasm
+        procs += partial(_clean, unstable_alif=unstable_alif), _to_rasm
     
     if uniq:
         procs += partial(_uniq, paleo=paleo),
@@ -1193,7 +1211,7 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, ign
             yield from ((ori, *(r.replace(' ', '') for r in rest)) for ori, *rest in results)
 
 @rasm_arch.register(tuple)
-def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', ignore_alif=False, only_rasm=False):
+def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', unstable_alif=False, only_rasm=False):
     """ Retrieve quranic text in archegraphemic representation according to index range.
 
     Args:
@@ -1207,7 +1225,7 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', i
         uniq (bool): if True, map letterblocks with list of tokens the appear and show absolute frequency.
         source ("tanzil-simple", "tanzil-uthmani", "decotype"): indicate the text source from which to retrieve the results.
             If the source is different from the three indicated above, tanzil-simple will be used.
-        ignore_alif (bool): if True, ignore alifs in rasm conversion.
+        unstable_alif (bool): if True, ignore alifs in rasm conversion.
         only_rasm (bool): do not print start of rub el hizb (۞ U+06de) nor place of sajda (۩ U+06e9) in output.
 
     Yield:
@@ -1297,7 +1315,7 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', i
         blocks = False
 
     try:
-        blocks_quran = _get_blocks(input_, source, only_rasm)
+        blocks_quran = _get_blocks(input_, source, only_rasm, unstable_alif)
 
         # group blocks into words
         blocks_gr = (list(gr) for _, gr in groupby(blocks_quran, key=lambda x: (x[1][1], x[1][2])))
