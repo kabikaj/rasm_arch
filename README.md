@@ -133,7 +133,7 @@ As a command-line utility:
 
 ## Version
 
-1.2.1
+1.2.2
 
 ## License for the code
  

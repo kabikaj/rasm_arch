@@ -1,4 +1,4 @@
-cff-version: 1.2.1
+cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
   - family-names: González Martínez
@@ -6,7 +6,7 @@ authors:
   - family-names: Milo
     given-names: Thomas
 title: "Rasm-Arch"
-version: 1.1.0
+version: 1.2.2
 license: MIT
 repository-code: "https://github.com/kabikaj/rasm_arch"
 date-released: 2022-10-01
