@@ -33,13 +33,13 @@
 
 MYDIR=$(dirname "$0")
 
-TANZIL_SIMPLE_INPUT="$MYDIR"/../rasm_arch/resources/quran-simple.txt
-TANZIL_UTHMANI_INPUT="$MYDIR"/../rasm_arch/resources/quran-uthmani.txt
-DECOTYPE_INPUT="$MYDIR"/../../../abjad/abjad_util/data/processed/mushaf.json
+TANZIL_SIMPLE_INPUT="$MYDIR"/../data/quran-simple.txt
+TANZIL_UTHMANI_INPUT="$MYDIR"/../data/quran-uthmani.txt
+DECOTYPE_INPUT="$MYDIR"/../../../data/data/processed/mushaf.json
 
-TANZIL_SIMPLE_OUTPUT="$MYDIR"/../rasm_arch/resources/mushaf_simple.json
-TANZIL_UTHMANI_OUTPUT="$MYDIR"/../rasm_arch/resources/mushaf_uthmani.json
-DECOTYPE_OUTPUT="$MYDIR"/../rasm_arch/resources/mushaf_dt.json
+TANZIL_SIMPLE_OUTPUT="$MYDIR"/../data/mushaf_simple.json
+TANZIL_UTHMANI_OUTPUT="$MYDIR"/../data/mushaf_uthmani.json
+DECOTYPE_OUTPUT="$MYDIR"/../data/mushaf_dt.json
 
 HELP='\n'\
 'usage:\n'\

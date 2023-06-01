@@ -31,10 +31,10 @@
 # SOFTWARE.
 #
 # usage:
-#   $ cat ../rasm_arch/resources/quran-simple.txt | python _build_qstruct.py > ../rasm_arch/resources/mushaf_simple.json
-#   $ cat ../rasm_arch/resources/quran-uthmani.txt | python _build_qstruct.py > ../rasm_arch/resources/mushaf_uthmani.json
+#   $ cat ../data/quran-simple.txt | python _build_qstruct.py > ../data/mushaf_simple.json
+#   $ cat ../data/quran-uthmani.txt | python _build_qstruct.py > ../data/mushaf_uthmani.json
 #
-###########################################################################################################################
+#############################################################################################
 
 import io
 import re

@@ -43,7 +43,7 @@ clean:
 
 build_resources:
 	@echo "\n>> Building resources..."
-	rm -f resources/mushaf_*.json
+	rm -f data/mushaf_*.json
 	bash scripts/_build_all.sh
 		
 install:
