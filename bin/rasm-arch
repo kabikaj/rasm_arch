@@ -132,7 +132,7 @@ if __name__ == '__main__':
     parser.add_argument('--uniq', '-u', action='store_true', help='output each unique archigraphemic letterblock, no. of occurrences and list of them')
     parser.add_argument('--sep', default='\t', help='field separator for text output [DEFAULT \\t]')
     parser.add_argument('--json', action='store_true', help='print output in json instead of plain text')
-    parser.add_argument('--version', action='version', version='%(prog)s 1.1.0', help='prints the program version number and exits successfully') #FIXME
+    parser.add_argument('--version', action='version', version='%(prog)s 1.2.1', help='prints the program version number and exits successfully') #FIXME
     args = parser.parse_args()
 
     try:
