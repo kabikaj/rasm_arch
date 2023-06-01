@@ -37,9 +37,9 @@ setup(
     packages = ["rasm_arch"],
     package_data = {
         os.path.join('rasm_arch', 'resources') : [
-            'mushaf_simple.json', 'mushaf_simple_u.json',
-            'mushaf_uthmani.json', 'mushaf_uthmani_u.json',
-            'mushaf_dt.json', 'mushaf_dt_u.json'
+            'mushaf_simple.json',
+            'mushaf_uthmani.json',
+            'mushaf_dt.json',
         ]
     },
     version = "1.1.0",

@@ -1020,7 +1020,7 @@ def _uniq(stream, /, paleo=False):
 
     yield from sorted(((*block, len(gr), set(gr)) for block, gr in groups), key=lambda x: x[2], reverse=True)
 
-def _get_blocks(index, source='tanzil-simple', only_rasm=False, unstable_alif=False):
+def _get_blocks(index, source='tanzil-simple', only_rasm=False):
     """ Get sequence of Quran blocks from Quran index range.
 
     Args:
@@ -1040,13 +1040,13 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False, unstable_alif=Fa
 
     """ 
     if source == 'tanzil-uthmani':
-        source_file = SOURCE.TANZIL_UTHMANI_U if unstable_alif else SOURCE.TANZIL_UTHMANI
+        source_file = SOURCE.TANZIL_UTHMANI
     elif source == 'decotype':
-        source_file = SOURCE.DECOTYPE_U if unstable_alif else SOURCE.DECOTYPE
+        source_file = SOURCE.DECOTYPE
         if not files('rasm_arch.resources').joinpath(source_file).exists():
             raise PrivateFileError
     else:
-        source_file = SOURCE.TANZIL_SIMPLE_U if unstable_alif else SOURCE.DECOTYPE
+        source_file = SOURCE.TANZIL_SIMPLE
 
     with files('rasm_arch.resources').joinpath(source_file).open() as fp:
         quran = json.load(fp)
@@ -1099,6 +1099,21 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False, unstable_alif=Fa
 
                         if not only_rasm or tok not in ('۞', '۩'):
                             yield (tok, rlt, rar, pal), (isura+1, ivers+1, iword+1, iblock+1)
+
+#FIXME
+def resolve_alif(words, unstable=False):
+    if not unstable:
+        yield from words
+    #FIXME no funciona bien ; prueba con 114:6:3
+    for word in words:
+        for i in range(len(word)-1, 0, -1):
+            if word[i][0][-1] == 'A' and word[i-1][0][-1].endswith('ᵃ'):
+                word[i-1] = list(word[i-1])
+                word[i-1][0] = list(word[i-1][0])
+                word[i-1][0][-1] = word[i-1][0][-1][:-1]
+                word.pop(i)
+        yield word
+
 
 @singledispatch
 def rasm_arch(input_):
@@ -1315,10 +1330,12 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', u
         blocks = False
 
     try:
-        blocks_quran = _get_blocks(input_, source, only_rasm, unstable_alif)
+        blocks_quran = _get_blocks(input_, source, only_rasm)
 
         # group blocks into words
         blocks_gr = (list(gr) for _, gr in groupby(blocks_quran, key=lambda x: (x[1][1], x[1][2])))
+
+        blocks_gr = resolve_alif(blocks_gr, unstable=unstable_alif)
 
         if not blocks:
 

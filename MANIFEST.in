@@ -1,8 +1,5 @@
 include README.md
 include LICENSE
 include rasm_arch/resources/mushaf_simple.json
-include rasm_arch/resources/mushaf_simple_u.json
 include rasm_arch/resources/mushaf_uthmani.json
-include rasm_arch/resources/mushaf_uthmani_u.json
 include rasm_arch/resources/mushaf_dt.json
-include rasm_arch/resources/mushaf_dt_u.json

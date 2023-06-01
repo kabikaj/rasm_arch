@@ -6,4 +6,5 @@ src/rust/rasm/target/*
 dist/*
 rasm_arch/resources/*.txt
 rasm_arch/resources/mushaf_dt*
+tests/_mytest.py
 instructions

@@ -28,9 +28,8 @@
 #
 # usage:
 #   $ cat ../../../abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py > ../rasm_arch/resources/mushaf_dt.json
-#   $ cat ../../../abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py -u > ../rasm_arch/resources/mushaf_dt_u.json
 #
-#########################################################################################################################################
+####################################################################################################################################
 
 import io
 import re
