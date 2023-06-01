@@ -52,8 +52,8 @@ install:
 
 install_man_page:
 	@echo "\n>> Installing man page..."
-	sudo cp man/rasm_arch.1 /usr/share/man/man1/rasm_arch.1
-	sudo gzip -f /usr/share/man/man1/rasm_arch.1
+	sudo cp man/rasm-arch.1 /usr/share/man/man1/rasm-arch.1
+	sudo gzip -f /usr/share/man/man1/rasm-arch.1
 	mandb
 
 execute_tests:

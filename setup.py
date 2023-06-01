@@ -42,7 +42,7 @@ setup(
             'mushaf_dt.json', 'mushaf_dt_u.json'
         ]
     },
-    version = "1.0.2",
+    version = "1.1.0",
     description = "text utility for converting Arabic-scripted text to a completely dediacritised skeleton",
     long_description = readme(),
     long_description_content_type="text/markdown",

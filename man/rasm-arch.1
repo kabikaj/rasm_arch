@@ -1,16 +1,16 @@
-.\" manpage for rasm_arch
+.\" manpage for rasm-arch
 .\" Contact aliciagm85+yakabikaj@gmail.com to correct errors or typos
-.TH rasm_arch 1 "16 April 2022" "version 1.0" "rasm_arch manpage"
+.TH rasm-arch 1 "1 June 2023" "version 1.1.0" "rasm-arch manpage"
 .SH NAME
-rasm_arch - convert Arabic-scripted text to archigraphemes
+rasm-arch - convert Arabic-scripted text to archigraphemes
 .SH SYNOPSIS
-.B rasm_arch
+.B rasm-arch
 .RI "[" OPTION "]..."
 .SH DESCRIPTION
-.B rasm_arch
+.B rasm-arch
 performs rasm conversion, also knows as archigraphemic conversion, of any Arabic-stripted text.
 .PP
-The input must be an Arabic-cripted text. Default output is the original token and the archigrapemic conversion of each token in both in Latin and Arabic, separated by tab.
+The input must be an Arabic-cripted text. Default output is the original token and the archigrapemic conversion of each token in both in Latin and Arabic, separated by tab. The system can also provide a complete transliteration of the input Arabic-scripted text, referred as paleo-orthographic representation.
 .SH OPTIONS
 .TP
 .B --text TEXT
@@ -20,7 +20,7 @@ Input stream. Mutually exclusive with --quran.
 Index range s[:v[:w]]-s[:v[:w]], e.g. "1:1:1-3:2:2". Mutually exclusive with --text.
 .TP
 .B -s, --source {tanzil-simple, tanzil-uthmani, decotype}
-Source Quran to use. Default is "decotype".
+Source Quran to use. Default is "tanzil-simple".
 .TP
 .B -n, --norm
 Normalise clusters of Arabic Presentation Forms-A (FB50–FDFF) and Arabic Presentation Forms-B (FE70–FEFF) to decomposed variants [only for --text].
@@ -33,6 +33,9 @@ Return the result in letterblocks istead of words.
 .TP
 .B --only_rasm
 Do not print start of rub el hizb (۞ U+06de) nor place of sajda (۩ U+06e9) [only for --quran]
+.TP
+.B -a, --unstable_alif
+Remove fatha+alif in non final positions as it is unstable.
 .TP
 .B -u, --uniq
 List of unique letterblocks, their number of occurences and the list of words where they appear.
@@ -62,7 +65,7 @@ Alicia González Martínez (aliciagm85+yakabikaj@gmail.com)
 .SH COPYRIGHT
 MIT LICENSE
 .PP
-Copyright (c) 2022 Alicia González Martínez and Thomas Milo
+Copyright (c) 2023 Alicia González Martínez and Thomas Milo. First created on 16 April 2022.
 .PP
-This document is part of the rasm_arch software.
+This document is part of the rasm-arch software.
 .PP

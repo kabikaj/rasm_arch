@@ -54,7 +54,7 @@ from importlib.resources import files
 from rasm_arch import rasm_arch as rasm
 from rasm_arch.util import SOURCE
 
-RESOURSE_EXISTS = files('resources').joinpath(SOURCE.DECOTYPE).exists()
+RESOURSE_EXISTS = files("rasm_arch.resources").joinpath(SOURCE.DECOTYPE).exists()
 
 class Rasm_Input_Text_Test(unittest.TestCase):
 
