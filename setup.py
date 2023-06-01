@@ -35,13 +35,7 @@ def readme():
 setup(
     name = "rasm_arch",
     packages = ["rasm_arch"],
-    package_data = {
-        os.path.join('rasm_arch', 'resources') : [
-            'mushaf_simple.json',
-            'mushaf_uthmani.json',
-            'mushaf_dt.json',
-        ]
-    },
+    package_data={'rasm_arch': ['data/*.json']},
     version = "1.2.2",
     description = "text utility for converting Arabic-scripted text to a completely dediacritised skeleton",
     long_description = readme(),

@@ -30,7 +30,6 @@
 
 import re
 import sys
-import os.path
 try:
     import ujson as json
 except ImportError:
@@ -1047,12 +1046,12 @@ def _get_blocks(index, source='tanzil-simple', only_rasm=False):
     else:
         source_file = SOURCE.TANZIL_SIMPLE
 
-    source_file = os.path.join('resources', source_file)
+    source_path = files('data').joinpath(source_file)
 
-    if source == 'decotype' and not files('rasm_arch').joinpath(source_file).exists():
+    if source == 'decotype' and not source_path.exists():
         raise PrivateFileError
 
-    with files('rasm_arch').joinpath(source_file).open() as fp:
+    with source_path.open() as fp:
         quran = json.load(fp)
     
         i, j, k, m = [(ind-1 if ind else ind) for ind in index[0]]
