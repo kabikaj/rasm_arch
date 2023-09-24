@@ -26,6 +26,8 @@ $ python -m pip install rasm_arch
 Install rasm_arch package and rasm_arch command-line utility along with the man page locally using the makefile:
 
 ```sh
+$ sudo python3 setup.py install
+OR
 $ make
 ```
 
