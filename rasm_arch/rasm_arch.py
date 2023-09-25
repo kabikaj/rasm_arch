@@ -44,54 +44,59 @@ from itertools import groupby
 
 from rasm_arch.util import SOURCE, ABJAD_MAPPING, PrivateFileError, pipe
 
+
 @dataclass
 class DATA:
     """ Inventory of characters in the Arabic abjad.
 
     """
-    Q = 'ٯࢥڧقڨﻕﻖ'
-    N = 'ںنڻڼڹݧݨݩڽﻥﻦ'
-    Y = 'ىیۍݷيېۑؠئؽێݵݶࢨࢩؾؿےۓݺݻﻯﻰﮮﮯﯼﯽﻲﮰﮱﺉﺊ'
-    A = 'ٱأإآاٳٲݳݴٵﺃﺄﺇﺈﺁﺂﺍﺎﭐﭑﴼ'
-    B = 'ࢬٮبݕࢠٻݐپڀݒٹݖݔتٺټݓثٽٿݑﻧﻨﯾﯿﻳﻴﺋﺌﺏﺐﺑﺒﭖﭗﭘﭙﺕﺖﺗﺘﺙﺚﺛﺜ'
-    G = 'خحجچݮݼڃڄچڇݘݯځݲڿڂݗࢢڅﺝﺞﺟﺠﺡﺢﺣﺤﺥﺦﺧﺨﭺﭻﭼﭽ'
-    R = 'رزړݛࢪڔڕڑڒۯݬږڗݫژڙݱﺭﺮﺯﺰﮊﮋ'
-    D = 'دذڈډڊݚڍڈۮڋݙڌڎڏڐﺩﺪﺫﺬ'
-    T = 'طظࢣڟﻁﻂﻃﻄﻅﻆﻇﻈ'
-    C = 'صضڝۻڞﺹﺺﺻﺼﺽﺾﺿﻀ'
-    S = 'سشڛݽݾښݭݜݰۺڜﺱﺲﺳﺴﺵﺶﺷﺸ'
-    F = 'فﻑﻒڡڢݠڥݡڣڤڦࢤﻓﻔﻗﻘ'
-    E = 'عغۼݝݟڠݞﻉﻊﻋﻌﻍﻎﻏﻐ'
-    W = 'وۄۅࢫؤۆۇۈۉۏݸݹۊۋﻭﻮﺅﺆ'
-    H = 'هھہەۀۂۿةۃﮤﮥﺓﺔﮦﮧﮨﮩﻪﻫﻬﮪﮫﮬﮭ'
-    M = 'مݦݥࢧﻡﻢﻣﻤ'
-    L = 'لݪࢦڸڵڶڷﻝﻞﻟﻠ'
-    K = 'كکڪګگڰڲڳؼڮݤݢػڱݿڭڴݣﻙﻚﻛﻜﮎﮏﮐﮑﮒﮓﮔﮕ'
+    Q = "ٯࢥڧقڨﻕﻖ"
+    N = "ںنڻڼڹݧݨݩڽﻥﻦ"
+    Y = "ىیۍݷيېۑؠئؽێݵݶࢨࢩؾؿﻯﻰﯼﯽﻲﺉﺊ"
+    J = "ےۓݺݻﮮﮯﮰﮱ"  # YEH BARREE - I think it's always final
+    A = "ٱأإآاٳٲݳݴٵﺃﺄﺇﺈﺁﺂﺍﺎﭐﭑﴼ"
+    B = "ࢬٮبݕࢠٻݐپڀݒٹݖݔتٺټݓثٽٿݑﻧﻨﯾﯿﻳﻴﺋﺌﺏﺐﺑﺒﭖﭗﭘﭙﺕﺖﺗﺘﺙﺚﺛﺜ"
+    G = "خحجچݮݼڃڄچڇݘݯځݲڿڂݗࢢڅﺝﺞﺟﺠﺡﺢﺣﺤﺥﺦﺧﺨﭺﭻﭼﭽ"
+    R = "رزړݛࢪڔڕڑڒۯݬږڗݫژڙݱﺭﺮﺯﺰﮊﮋ"
+    D = "دذڈډڊݚڍڈۮڋݙڌڎڏڐﺩﺪﺫﺬ"
+    T = "طظࢣڟﻁﻂﻃﻄﻅﻆﻇﻈ"
+    C = "صضڝۻڞﺹﺺﺻﺼﺽﺾﺿﻀ"
+    S = "سشڛݽݾښݭݜݰۺڜﺱﺲﺳﺴﺵﺶﺷﺸ"
+    F = "فﻑﻒڡڢݠڥݡڣڤڦࢤﻓﻔﻗﻘ"
+    E = "عغۼݝݟڠݞﻉﻊﻋﻌﻍﻎﻏﻐ"
+    W = "وۄۅࢫؤۆۇۈۉۏݸݹۊۋﻭﻮﺅﺆ"
+    H = "هہەۀۂۿةۃﮤﮥﺓﺔﮦﮧﮨﮩﻪﻫﻬ"
+    O = "ھﮪﮫﮬﮭ" # HEH DOACHASHMEE
+    M = "مݦݥࢧﻡﻢﻣﻤ"
+    L = "لݪࢦڸڵڶڷﻝﻞﻟﻠ"
+    K = "كکڪګگڰڲڳؼڮݤݢػڱݿڭڴݣﻙﻚﻛﻜﮎﮏﮐﮑﮒﮓﮔﮕ"
 
-    CHAR = ''.join((Q, N, Y, A, B, G, R, D, T, C, S, F, E, W, H, M, L, K))
+    CHAR = ''.join((Q, N, Y, J, A, B, G, R, D, T, C, S, F, E, W, H, O, M, L, K))
     
     RASM_QNY_MAPPING = {
-        ** {c : 'Q' for c in Q},
-        ** {c : 'N' for c in N},
-        ** {c : 'Y' for c in Y},
+        ** {c : "Q" for c in Q},
+        ** {c : "N" for c in N},
+        ** {c : "Y" for c in Y},
     }
 
     RASM_MAPPING = {
-        ** {c : 'B' for c in ''.join((N, Y, B))},
-        ** {c : 'G' for c in G},
-        ** {c : 'T' for c in T},
-        ** {c : 'C' for c in C},
-        ** {c : 'S' for c in S},
-        ** {c : 'F' for c in ''.join((Q, F))},
-        ** {c : 'E' for c in E},
-        ** {c : 'H' for c in H},
-        ** {c : 'M' for c in M},
-        ** {c : 'L' for c in L},
-        ** {c : 'K' for c in K},
-        ** {c : 'A' for c in A},
-        ** {c : 'R' for c in R},
-        ** {c : 'D' for c in D},
-        ** {c : 'W' for c in W}
+        ** {c : "B" for c in "".join((N, Y, B))},
+        ** {c : "G" for c in G},
+        ** {c : "T" for c in T},
+        ** {c : "C" for c in C},
+        ** {c : "S" for c in S},
+        ** {c : "F" for c in "".join((Q, F))},
+        ** {c : "E" for c in E},
+        ** {c : "H" for c in H},
+        ** {c : "O" for c in O},
+        ** {c : "M" for c in M},
+        ** {c : "L" for c in L},
+        ** {c : "K" for c in K},
+        ** {c : "A" for c in A},
+        ** {c : "R" for c in R},
+        ** {c : "D" for c in D},
+        ** {c : "W" for c in W},
+        ** {c : "J" for c in J}
     }
 
     NORM_MAPPING = {
@@ -908,6 +913,7 @@ class DATA:
     UNSTABLE_ALIF_REGEX = re.compile(r'ᵃA(?=.)')
     UNSTABLE_ALIF_ARA_REGEX = re.compile(r'َا(?=.)')
 
+
 def _to_paleo(tokens, /, unstable_alif=False):
     """ Convert Arabic-scriped token into paleo-orthographic representation and create copy in rasm representation.
 
@@ -947,6 +953,7 @@ def _to_paleo(tokens, /, unstable_alif=False):
 
         yield tok, rlt, rar, pal
 
+
 def _tokenise(stream, /, norm_clusters=False):
     """ Segment stream in tokens.
 
@@ -963,6 +970,7 @@ def _tokenise(stream, /, norm_clusters=False):
 
     yield from (tok for line in stream for tok in re.split(rf'[{whitespace}{punctuation}؟،؛]', line) if tok)
 
+
 def _clean(tokens, /, unstable_alif=False):
     """ Create a copy each token in tokens containing no Arabic-scripted characters.
 
@@ -977,6 +985,7 @@ def _clean(tokens, /, unstable_alif=False):
     if unstable_alif:
         tokens = (DATA.UNSTABLE_ALIF_ARA_REGEX.sub('', tok) for tok in tokens)
     yield from ((ori, DATA.CLEAN_REGEX.sub('', ori)) for ori in tokens)
+
 
 def _to_rasm(tokens):
     """ Convert cleantok to archigraphemic representation.
@@ -995,6 +1004,7 @@ def _to_rasm(tokens):
     tokens_rblocks = ((ori, re.sub(r'([ARDW])', r'\1 ', rasm)) for ori, rasm in tokens_rasm)
 
     yield from ((ori, rasm, DATA.ABJAD_REGEX.sub(lambda m: ABJAD_MAPPING[m.group(0)], rasm)) for ori, rasm in tokens_rblocks)
+
 
 def _uniq(stream, /, paleo=False):
     """ Map each rasm block with the list of blocks or tokens they appear in
@@ -1019,6 +1029,7 @@ def _uniq(stream, /, paleo=False):
         groups = ((k, [ori for *_, ori in gr]) for k, gr in groupby(blocks, key=lambda x : (x[:2])))
 
     yield from sorted(((*block, len(gr), set(gr)) for block, gr in groups), key=lambda x: x[2], reverse=True)
+
 
 def _get_blocks(index, source='tanzil-simple', only_rasm=False):
     """ Get sequence of Quran blocks from Quran index range.
@@ -1109,7 +1120,7 @@ def rasm_arch(input_):
     raise NotImplementedError('Unsupported type')
 
 @rasm_arch.register(TextIOBase)
-def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, unstable_alif=False):
+def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, unstable_alif=False, sep_blocks=False):
     """ Clean, tokenise and convert text to archigraphemic representation.
 
                +----------------+     +-----------+     +--------+     +----------+     
@@ -1132,6 +1143,7 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, uns
         uniq (bool): if True, map letterblocks with list of tokens the appear and show absolute frequency.
         norm_clusters (bool): if True, normalise Arabic clusters to decomposed form before conversion.
         unstable_alif (bool): if True, delete fatha+alif in conversion.
+        sep_blocks (bool): Add space after all letterblocks, regardless if it's word ending or not.
 
     Yield:
         (if uniq==False and blocks==False and paleo==False)
@@ -1187,6 +1199,8 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, uns
     if uniq and blocks:
         blocks = False
 
+    sep_blocks_fn = lambda s: s if sep_blocks else s.replace(' ', '')
+
     procs = partial(_tokenise, norm_clusters=norm_clusters),
 
     if paleo:
@@ -1208,14 +1222,14 @@ def _(input_, /, paleo=False, blocks=False, uniq=False, norm_clusters=False, uns
     else:
         if uniq:
             if paleo:
-                yield from ((*fst, {(word, pal.replace(' ', '')) for word, pal in found}) for *fst, found in results)
+                yield from ((*fst, {(word, sep_blocks_fn(pal)) for word, pal in found}) for *fst, found in results)
             else:
                 yield from ((ori, *rest) for ori, *rest in results)
         else:
-            yield from ((ori, *(r.replace(' ', '') for r in rest)) for ori, *rest in results)
+            yield from ((ori, *(sep_blocks_fn(r) for r in rest)) for ori, *rest in results)
 
 @rasm_arch.register(tuple)
-def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', only_rasm=False):
+def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', only_rasm=False, sep_blocks=False):
     """ Retrieve quranic text in archegraphemic representation according to index range.
 
     Args:
@@ -1231,6 +1245,7 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', o
             If the source is different from the three indicated above, tanzil-simple will be used.
         unstable_alif (bool): if True, ignore alifs in rasm conversion.
         only_rasm (bool): do not print start of rub el hizb (۞ U+06de) nor place of sajda (۩ U+06e9) in output.
+        sep_blocks (bool): Add space after all letterblocks, regardless if it's word ending or not.
 
     Yield:
         (if uniq==False and blocks==False and paleo==False)
@@ -1318,6 +1333,8 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', o
     if uniq and blocks:
         blocks = False
 
+    SEP = " " if sep_blocks else ""
+
     try:
         blocks_quran = _get_blocks(input_, source, only_rasm)
 
@@ -1328,25 +1345,27 @@ def _(input_, /, paleo=True, blocks=False, uniq=False, source='tanzil-simple', o
 
             if uniq:
                 if paleo:
-                    yield from _uniq(((''.join(g[0][0] for g in b), ' '.join(g[0][1] for g in b),
-                                       ' '.join(g[0][2] for g in b), ''.join(g[0][3] for g in b)) for b in blocks_gr), paleo=paleo)
+                    yield from _uniq((("".join(g[0][0] for g in b), " ".join(g[0][1] for g in b),
+                                       " ".join(g[0][2] for g in b), SEP.join(g[0][3] for g in b)) for b in blocks_gr), paleo=paleo)
                 else:
-                    yield from _uniq(((''.join(g[0][0] for g in b), ' '.join(g[0][1] for g in b), ' '.join(g[0][2] for g in b)) for b in blocks_gr))
+                    yield from _uniq((("".join(g[0][0] for g in b), " ".join(g[0][1] for g in b), " ".join(g[0][2] for g in b))
+                        for b in blocks_gr))
 
             elif paleo:
-                yield from ((''.join(g[0][0] for g in b), ''.join(g[0][1] for g in b), ''.join(g[0][2] for g in b),
-                    ''.join(g[0][3] for g in b), b[0][1][:-1]) for b in blocks_gr)
+                yield from (("".join(g[0][0] for g in b), SEP.join(g[0][1] for g in b), SEP.join(g[0][2] for g in b),
+                    SEP.join(g[0][3] for g in b), b[0][1][:-1]) for b in blocks_gr)
 
             # blocks==False, paleo==True
             else:
-                yield from ((''.join(g[0][0] for g in b), ''.join(g[0][1] for g in b), ''.join(g[0][2] for g in b), b[0][1][:-1]) for b in blocks_gr)
+                yield from (("".join(g[0][0] for g in b), SEP.join(g[0][1] for g in b), SEP.join(g[0][2] for g in b),
+                    b[0][1][:-1]) for b in blocks_gr)
 
         else:
             if paleo:
-                yield from ((''.join(g[0][0] for g in b), [(*g[0], g[1]) for g in b]) for b in blocks_gr)
+                yield from (("".join(g[0][0] for g in b), [(*g[0], g[1]) for g in b]) for b in blocks_gr)
 
             else:
-                yield from ((''.join(g[0][0] for g in b), [(*g[0][:-1], g[1]) for g in b]) for b in blocks_gr)
+                yield from (("".join(g[0][0] for g in b), [(*g[0][:-1], g[1]) for g in b]) for b in blocks_gr)
 
     except PrivateFileError:
         raise PrivateFileError

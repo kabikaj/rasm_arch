@@ -32,14 +32,15 @@
 ################################################################################
 
 MYDIR=$(dirname "$0")
+REROURCES_DIR=~/Dropbox/code/_resources
 
-TANZIL_SIMPLE_INPUT="$MYDIR"/../data/quran-simple.txt
-TANZIL_UTHMANI_INPUT="$MYDIR"/../data/quran-uthmani.txt
-DECOTYPE_INPUT="$MYDIR"/../../../data/data/processed/mushaf.json
+TANZIL_SIMPLE_INPUT="$REROURCES_DIR/quran-simple.txt"
+TANZIL_UTHMANI_INPUT="$REROURCES_DIR/quran-uthmani.txt"
+DECOTYPE_INPUT="$REROURCES_DIR/mushaf.json"
 
-TANZIL_SIMPLE_OUTPUT="$MYDIR"/../data/mushaf_simple.json
-TANZIL_UTHMANI_OUTPUT="$MYDIR"/../data/mushaf_uthmani.json
-DECOTYPE_OUTPUT="$MYDIR"/../data/mushaf_dt.json
+TANZIL_SIMPLE_OUTPUT="$MYDIR/../rasm_arch_data/mushaf_simple.json"
+TANZIL_UTHMANI_OUTPUT="$MYDIR/../rasm_arch_data/mushaf_uthmani.json"
+DECOTYPE_OUTPUT="$MYDIR/../rasm_arch_data/mushaf_dt.json"
 
 HELP='\n'\
 'usage:\n'\
@@ -49,7 +50,7 @@ HELP='\n'\
 '\t-f    force build of resources'\
 '\n'
 
-OPTIND=1  # POSIX variable, reset in case getopts has been used previously in the shell.
+OPTIND=1  # POSIX variable, reset in case getopts has been used previously in the shell
 FORCE_FLAG=0
 
 parse_arguments()
@@ -70,18 +71,18 @@ parse_arguments()
 parse_arguments $@
 
 if [[ ! -f $TANZIL_SIMPLE_OUTPUT || $FORCE_FLAG -eq 1 ]] ; then
-    cat $TANZIL_SIMPLE_INPUT | python "$MYDIR"/_build_qstruct.py > $TANZIL_SIMPLE_OUTPUT ;
+    cat $TANZIL_SIMPLE_INPUT | python "$MYDIR"/_build_qstruct.py > $TANZIL_SIMPLE_OUTPUT &&
     echo "tanzil simple processed!" >/dev/stderr
 fi &&
 
 if [[ ! -f $TANZIL_UTHMANI_OUTPUT || $FORCE_FLAG -eq 1 ]] ; then
-    cat $TANZIL_UTHMANI_INPUT | python "$MYDIR"/_build_qstruct.py > $TANZIL_UTHMANI_OUTPUT ;
+    cat $TANZIL_UTHMANI_INPUT | python "$MYDIR"/_build_qstruct.py > $TANZIL_UTHMANI_OUTPUT &&
     echo "tanzil uthmani processed!" >/dev/stderr
 fi  &&
 
 if [[ ! -f $DECOTYPE_OUTPUT || $FORCE_FLAG -eq 1 ]] ; then
     if [ -f $DECOTYPE_INPUT ] ; then
-        cat $DECOTYPE_INPUT | python "$MYDIR"/_build_qstruct_dt.py > $DECOTYPE_OUTPUT ;
-        echo "decotype processed!"
+        cat $DECOTYPE_INPUT | python "$MYDIR"/_build_qstruct_dt.py > $DECOTYPE_OUTPUT &&
+        echo "decotype processed!" >/dev/stderr
     fi
 fi

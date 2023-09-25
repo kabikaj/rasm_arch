@@ -58,7 +58,7 @@ install_man_page:
 
 execute_tests:
 	@echo "\n>> Executing battery of tests..."
-	$(PYTHON) tests/test_rasm_arch.py
+	$(PYTHON) -m pytest tests/test_rasm_arch.py
 
 help:
 	@echo "    all"
