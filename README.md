@@ -20,37 +20,42 @@ If ujson is not installed, json will be used.
 Install rasm_arch package and rasm_arch command-line utility through pip:
 
 ```sh
-$ python -m pip install rasm_arch
+python3 -m pip install rasm_arch
 ```
 
 Install rasm_arch package and rasm_arch command-line utility along with the man page locally using the makefile:
 
 ```sh
-$ sudo python3 setup.py install
+sudo python3 setup.py install
 OR
-$ make
+make
 ```
 
 Or simply install the man page manually:
 ```sh
-$ sudo cp man/rasm_arch.1 /usr/share/man/man1/rasm_arch.1
-$ sudo gzip -f /usr/share/man/man1/rasm_arch.1
-$ mandb
+sudo cp man/rasm_arch.1 /usr/share/man/man1/rasm_arch.1
+sudo gzip -f /usr/share/man/man1/rasm_arch.1
+mandb
 ``` 
 
 Use the following commands to uninstall it:
 
 ```sh
-$ pip uninstall rasm_arch
+pip uninstall rasm_arch
 ```
 
 or
 
 ```sh
-$ python setup.py install --record files.txt
-$ xargs rm -rf < files.txt
+python setup.py install --record files.txt
+xargs rm -rf < files.txt
 ```
 
+To reinstall from source:
+
+```sh
+python3 -m pip install --force-reinstall -e .
+```
 ## Examples of usage
 
 In python:

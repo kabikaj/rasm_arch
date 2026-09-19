@@ -27,11 +27,11 @@
 # SOFTWARE.
 #
 # usage:
-#   $ cat ~/Dropbox/code/_resources/mushaf.json | python _build_qstruct_dt.py > ../rasm_arch_data/mushaf_dt.json
+#   $ cat ../private/mushaf.json | python3 _build_qstruct_dt.py > ../rasm_arch_data/mushaf_dt.json
 #   OR
-#   $ cat ../../../abjad/abjad_util/data/processed/mushaf.json | python _build_qstruct_dt.py > ../rasm_arch_data/mushaf_dt.json
+#   $ cat ../../dt/mushaf/data/mushaf.json | python3 _build_qstruct_dt.py > ../rasm_arch_data/mushaf_dt.json
 #
-######################################################################################################################
+###########################################################################################################
 
 import io
 import re

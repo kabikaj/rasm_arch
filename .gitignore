@@ -7,3 +7,4 @@ dist/*
 rasm_arch_data/*.txt
 rasm_arch_data/mushaf_dt*
 instructions
+private/*
